@@ -1,0 +1,15 @@
+*.db
+*.o
+*.exe
+*.ilk
+*.log
+*.out
+gziped_files
+*.txt
+*.zip
+*.user
+Debug
+*.sdf
+*.suo
+*.opensdf
+*.filters

@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{963F7293-484E-46BB-BE26-C865BFD4077B}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>My3s3sorg</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\openssl\include;$(SolutionDir)..;</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(solutionDir)..\curl;$(solutionDir)..\openssl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wldap32.lib;libcurld.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(SolutionDir)..\..\test_server.exe</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\curl_helper.h" />
+    <ClInclude Include="..\..\..\html_framework.h" />
+    <ClInclude Include="..\..\..\log.h" />
+    <ClInclude Include="..\..\..\md5\md5.h" />
+    <ClInclude Include="..\..\..\proxy\AbuseError.h" />
+    <ClInclude Include="..\..\..\proxy\ClientForProxy.h" />
+    <ClInclude Include="..\..\..\proxy\GuestBook.h" />
+    <ClInclude Include="..\..\..\proxy\index.h" />
+    <ClInclude Include="..\..\..\proxy\MakeUrl.h" />
+    <ClInclude Include="..\..\..\proxy\Proxy.h" />
+    <ClInclude Include="..\..\..\proxy\Template.h" />
+    <ClInclude Include="..\..\..\proxy\TopSites.h" />
+    <ClInclude Include="..\..\..\simple_server.h" />
+    <ClInclude Include="..\..\..\sqlite\sqlite3.h" />
+    <ClInclude Include="..\..\..\sqlite\sqlite3ext.h" />
+    <ClInclude Include="..\..\..\StartupInfo.h" />
+    <ClInclude Include="..\..\..\utils\orm.h" />
+    <ClInclude Include="..\..\..\utils\SiteUtils.h" />
+    <ClInclude Include="..\..\zlib-1.2.7\crc32.h" />
+    <ClInclude Include="..\..\zlib-1.2.7\deflate.h" />
+    <ClInclude Include="..\..\zlib-1.2.7\gzguts.h" />
+    <ClInclude Include="..\..\zlib-1.2.7\inffast.h" />
+    <ClInclude Include="..\..\zlib-1.2.7\inffixed.h" />
+    <ClInclude Include="..\..\zlib-1.2.7\inflate.h" />
+    <ClInclude Include="..\..\zlib-1.2.7\inftrees.h" />
+    <ClInclude Include="..\..\zlib-1.2.7\trees.h" />
+    <ClInclude Include="..\..\zlib-1.2.7\zconf.h" />
+    <ClInclude Include="..\..\zlib-1.2.7\zlib.h" />
+    <ClInclude Include="..\..\zlib-1.2.7\zutil.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\main.cpp" />
+    <ClCompile Include="..\..\..\md5\md5.c" />
+    <ClCompile Include="..\..\..\proxy\AbuseError.cpp" />
+    <ClCompile Include="..\..\..\proxy\ClientForProxy.cpp" />
+    <ClCompile Include="..\..\..\proxy\GuestBook.cpp" />
+    <ClCompile Include="..\..\..\proxy\MakeUrl.cpp" />
+    <ClCompile Include="..\..\..\proxy\Proxy.cpp" />
+    <ClCompile Include="..\..\..\proxy\proxy_index.cpp" />
+    <ClCompile Include="..\..\..\proxy\Template.cpp" />
+    <ClCompile Include="..\..\..\proxy\TopSites.cpp" />
+    <ClCompile Include="..\..\..\sqlite\sqlite3.c" />
+    <ClCompile Include="..\..\..\StartupInfo.cpp" />
+    <ClCompile Include="..\..\..\utils\orm.cpp" />
+    <ClCompile Include="..\..\zlib-1.2.7\adler32.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\compress.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\crc32.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\deflate.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\gzclose.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\gzlib.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\gzread.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\gzwrite.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\infback.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\inffast.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\inflate.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\inftrees.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\trees.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\uncompr.c" />
+    <ClCompile Include="..\..\zlib-1.2.7\zutil.c" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
