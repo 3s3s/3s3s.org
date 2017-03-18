@@ -23,6 +23,17 @@ unordered_map<string, shared_ptr<CProxyInfo> > simple_server::g_mapProxyInfo;
 
 int main()
 {
+	orm::CTable::CreateTable("UsersSites", "(url TEXT, title TEXT, description TEXT, UserIP TEXT, time INTEGER, flag INTEGER)");
+
+	//orm::CTable::ExecuteSQL("DROP TABLE LINKS");
+	orm::CTable::CreateTable("LINKS", "(long TEXT, short TEXT PRIMARY KEY)");
+
+	orm::CTable::ExecuteSQL("ALTER TABLE LINKS ADD COLUMN time INTEGER");
+	orm::CTable::ExecuteSQL("ALTER TABLE UsersSites ADD COLUMN lang TEXT");
+
+	orm::CTable::ExecuteSQL("ALTER TABLE LINKS ADD COLUMN creatorIP TEXT");
+	orm::CTable::ExecuteSQL("ALTER TABLE LINKS ADD COLUMN status TEXT");
+
 	CServer<CStartupInfo<CLIENT_T> > server(settings);
 	
 	while(server.m_bIsInit)

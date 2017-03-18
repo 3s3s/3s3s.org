@@ -1,7 +1,8 @@
 #!/bin/sh
-export CC=/opt/centos/devtoolset-1.1/root/usr/bin/gcc  
-export CPP=/opt/centos/devtoolset-1.1/root/usr/bin/cpp
-export CXX=/opt/centos/devtoolset-1.1/root/usr/bin/c++
+#export CC=/opt/centos/devtoolset-1.1/root/usr/bin/gcc  
+#export CPP=/opt/centos/devtoolset-1.1/root/usr/bin/cpp
+#export CXX=/opt/centos/devtoolset-1.1/root/usr/bin/c++
+export CXX=g++
 killall autorestart.py
 killall test_server.exe
 rm -rf gziped_files
