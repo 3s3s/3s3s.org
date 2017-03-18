@@ -102,6 +102,8 @@ function UnblockURL(strBlocked)
 	
 	if (a.host == "kasparov.ru")
 		a.host = "www."+"kasparov.ru";
+	if (a.host == "grani.ru")
+		a.host = "graniru.org";
 
 	if ($("#encrypt_url").is(':checked'))
 		RKN_List.push(a.host);
