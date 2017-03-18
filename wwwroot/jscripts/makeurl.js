@@ -1,12 +1,19 @@
+function GetMyDomain()
+{
+	var a = document.createElement("a");
+	a.href = window.location.href;
 
+	return a.host;	
+}
 function deleteAllCookies(strDot) {
+
     var cookies = document.cookie.split(";");
 
         for (var i = 0; i < cookies.length; i++) {
 			var cookie = cookies[i];
 			var eqPos = cookie.indexOf("=");
 			var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-			document.cookie = name + "=; path=/; domain="+strDot+"3s3s.org; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+			document.cookie = name + "=; path=/; domain="+strDot+GetMyDomain()+"; expires=Thu, 01 Jan 1970 00:00:00 GMT";
         }
 }
 
@@ -59,7 +66,7 @@ function UnblockURL(strBlocked)
 							if (data.result != true || data.short.length == 0)
 								return;
 								
-							window.open("http://"+data.short[0]+".3s3s.org");
+							window.open("http://"+data.short[0]+"."+GetMyDomain());
 						}, "json")
 						.fail(function(xhr, textStatus, error) 
 						{
@@ -71,12 +78,11 @@ function UnblockURL(strBlocked)
 	
 //	deleteAllCookies(a.host + ".");
 		
-	window.open(a.protocol + "//" + a.host + ".3s3s.org" + a.pathname + a.search + a.hash);
+	window.open(a.protocol + "//" + a.host + "."+GetMyDomain() + a.pathname + a.search + a.hash);
 
 
 }
 
-$.getScript("/jscripts/utils.js", function(){
 	$( "#go_unblock_url" )
 		.click(function( event )
 		{
@@ -91,9 +97,9 @@ $.getScript("/jscripts/utils.js", function(){
 			function FillRows(data)
 			{
 				var rows = "";
-				for (i=0; i<data.short.length; i++)
+				for (var i=0; i<data.short.length; i++)
 				{
-					rows += "<tr><td>http://" + data.short[i] + ".3s3s.org</td></tr>";
+					rows += "<tr><td>http://" + data.short[i] + "."+GetMyDomain()+"</td></tr>";
 				}
 				return rows;
 			}
@@ -127,4 +133,3 @@ $.getScript("/jscripts/utils.js", function(){
 						"</div>");
 				});
 		});
-})
