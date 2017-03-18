@@ -37,7 +37,57 @@ $(function()
 	  UnblockURL($("#blocked_url").val());
 	});
 	
-	//$( "#LeftTabs").tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+	$( "#go_unblock_url" )
+		.click(function( event )
+		{
+			event.preventDefault();
+			UnblockURL($("#blocked_url").val());			
+		});
+		
+	$( "#make_short_url" )
+		.click(function( event )
+		{
+			event.preventDefault();
+			
+			function FillRows(data)
+			{
+				var rows = "";
+				for (var i=0; i<data.short.length; i++)
+				{
+					rows += "<tr><td>http://" + data.short[i] + "."+GetMyDomain()+"</td></tr>";
+				}
+				return rows;
+			}
+			
+			$.post("/make_short_url.ssp", { action: "make", long: $("#long_url").val(), alias: $("#custom_alias").val() }, 
+				function(data, status)
+				{
+					if (data.result != true)
+					{
+						if (data.reason == "wait24")
+						{
+							$("#short_links_table").remove();
+							$("#short_links").append(
+								"<div id='short_links_table'><span style='color:red'>"+
+									"Sorry. Only one domain name in 24 hours available."+
+								"</span><br><span>To get a short link without domain, please clean the alias field.<span>"+
+								"</div>");
+						}
+						return;
+					}
+					
+					$("#short_links_table").remove();
+					$("#short_links").append("<table id='short_links_table'>"+FillRows(data)+"</table>");
+				}, "json")
+				.fail(function(xhr, textStatus, error) 
+				{
+					$("#short_links_table").remove();
+					$("#short_links").append(
+						"<div id='short_links_table'><span style='color:red'>"+
+							"Operation failed!"+
+						"</div>");
+				});
+		});
 });
 
 function UnblockURL(strBlocked)
@@ -83,53 +133,3 @@ function UnblockURL(strBlocked)
 
 }
 
-	$( "#go_unblock_url" )
-		.click(function( event )
-		{
-			event.preventDefault();
-			UnblockURL($("#blocked_url").val());			
-		});
-	$( "#make_short_url" )
-		.click(function( event )
-		{
-			event.preventDefault();
-			
-			function FillRows(data)
-			{
-				var rows = "";
-				for (var i=0; i<data.short.length; i++)
-				{
-					rows += "<tr><td>http://" + data.short[i] + "."+GetMyDomain()+"</td></tr>";
-				}
-				return rows;
-			}
-			
-			$.post("/make_short_url.ssp", { action: "make", long: $("#long_url").val(), alias: $("#custom_alias").val() }, 
-				function(data, status)
-				{
-					if (data.result != true)
-					{
-						if (data.reason == "wait24")
-						{
-							$("#short_links_table").remove();
-							$("#short_links").append(
-								"<div id='short_links_table'><span style='color:red'>"+
-									"Sorry. Only one domain name in 24 hours available."+
-								"</span><br><span>To get a short link without domain, please clean the alias field.<span>"+
-								"</div>");
-						}
-						return;
-					}
-					
-					$("#short_links_table").remove();
-					$("#short_links").append("<table id='short_links_table'>"+FillRows(data)+"</table>");
-				}, "json")
-				.fail(function(xhr, textStatus, error) 
-				{
-					$("#short_links_table").remove();
-					$("#short_links").append(
-						"<div id='short_links_table'><span style='color:red'>"+
-							"Operation failed!"+
-						"</div>");
-				});
-		});
