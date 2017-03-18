@@ -1,4 +1,4 @@
-#define DNS_NAME	"3s3s.org"
+#define DNS_NAME	"3s3s.ru"
 
 #define WWW_ROOT	"wwwroot"
 
