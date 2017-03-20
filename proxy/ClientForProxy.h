@@ -10,8 +10,8 @@
 
 class ClientForProxy : public startup::CClient
 {
-	static vector<string> m_vProxyDNS;
-	static vector<startup::CRegisteredDNS> m_vRegisteredDNS;
+	//static vector<string> m_vProxyDNS;
+	//static vector<startup::CRegisteredDNS> m_vRegisteredDNS;
 	CSSPProxy m_Proxy;
 
 	unordered_map<string, shared_ptr<proxy_site::CTemplateSSP>> m_ptrPagesGET, m_ptrPagesPOST;

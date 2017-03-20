@@ -27,8 +27,8 @@ public:
 
 class CSSPProxy
 {
-	static vector<startup::CRegisteredDNS> m_vRegisteredDNS;
-	static void UpdateRegisteredDNS();
+	//static vector<startup::CRegisteredDNS> m_vRegisteredDNS;
+	//static void UpdateRegisteredDNS();
 
 	void AddProxyADScript();
 
@@ -428,7 +428,7 @@ public:
 		m_bApplicationJS(false), m_tmLastTime(time(NULL)), m_bUTF8(false),
 		m_bInProxyMode(false), m_bInProxyMode2(false), m_host(NULL), m_hostDel(NULL)
 	{
-		UpdateRegisteredDNS();
+		//UpdateRegisteredDNS();
 
 		m_bHaveContentType = false;
 		m_bHaveTagHTML = true;

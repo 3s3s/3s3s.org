@@ -9,7 +9,7 @@
 extern curl::CUrl gCURL;
 extern set<string> g_vWhiteListedIP;
 
-vector<startup::CRegisteredDNS> CSSPProxy::m_vRegisteredDNS;
+//vector<startup::CRegisteredDNS> CSSPProxy::m_vRegisteredDNS;
 vector<CSSPProxySiteInfo> m_gLastProxySites;
 
 set<string> m_gSetIPandURLs;
@@ -44,7 +44,7 @@ bool CSSPProxy::IsStopped() const
 	return m_bDone;
 }
 
-void CSSPProxy::UpdateRegisteredDNS()
+/*void CSSPProxy::UpdateRegisteredDNS()
 {
 	if (m_vRegisteredDNS.size())
 		return;
@@ -59,9 +59,9 @@ void CSSPProxy::UpdateRegisteredDNS()
 		if (m_vRegisteredDNS[n].DNS() == multicoins.DNS())
 			return;
 	}*/
-	m_vRegisteredDNS.push_back(langtest);
+	/*m_vRegisteredDNS.push_back(langtest);
 	m_vRegisteredDNS.push_back(multicoins);
-}
+}*/
 
 void CSSPProxy::InjectScript(const string strTagName)
 {
@@ -957,7 +957,7 @@ bool CSSPProxy::Continue(const string strHost0, const string strURI, const map<s
 		{
 			const string strRetHost = (strHost0.find("h_t_t_p_s.") == 0) ? strHost0.substr(10) : strHost0;
 
-			for (size_t n=0; n<m_vRegisteredDNS.size(); n++)
+			/*for (size_t n=0; n<m_vRegisteredDNS.size(); n++)
 			{
 				if (m_vRegisteredDNS[n].DNS() == strRetHost)
 				{
@@ -967,7 +967,7 @@ bool CSSPProxy::Continue(const string strHost0, const string strURI, const map<s
 					
 					return m_vRegisteredDNS[n].IP() + ":" + to_string((int64_t)m_vRegisteredDNS[n].Port());
 				}
-			}
+			}*/
 			return strRetHost;
 
 		}(&bProxyMode2);
@@ -1127,7 +1127,7 @@ bool CSSPProxy::Continue(const string strHost0, const string strURI, const map<s
 		m_strURL = [=](string strHost) -> string
 			{
 				string strRetHost = strHost;
-				for (size_t n=0; n<m_vRegisteredDNS.size(); n++)
+				/*for (size_t n=0; n<m_vRegisteredDNS.size(); n++)
 				{
 					if (m_vRegisteredDNS[n].DNS() == strRetHost)
 					{
@@ -1137,7 +1137,7 @@ bool CSSPProxy::Continue(const string strHost0, const string strURI, const map<s
 							strRetHost = m_vRegisteredDNS[n].IP() + ":" + to_string((int64_t)m_vRegisteredDNS[n].Port());
 						break;
 					}
-				}
+				}*/
 
 				return (bIsSSL ? "https://" : "http://") + strRetHost + strFullURI;
 			}(strHost0);

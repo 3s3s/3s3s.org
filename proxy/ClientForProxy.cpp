@@ -1,16 +1,18 @@
 #include "ClientForProxy.h"
 
-vector<string> ClientForProxy::m_vProxyDNS;
-vector<startup::CRegisteredDNS> ClientForProxy::m_vRegisteredDNS;
+//vector<string> ClientForProxy::m_vProxyDNS;
+//vector<startup::CRegisteredDNS> ClientForProxy::m_vRegisteredDNS;
 
 bool ClientForProxy::ContinueGet(vector<BYTE> *pOutBuffer)
 {
 	bool bRet;
-	for (size_t n=0; n<m_vProxyDNS.size(); n++)
+	/*for (size_t n=0; n<m_vProxyDNS.size(); n++)
 	{
 		if (StartProxy(m_vProxyDNS[n], &bRet, shared_ptr<vector<BYTE> >(new vector<BYTE>).get(), pOutBuffer))
 			return bRet;
-	}
+	}*/
+	if (StartProxy(DNS_NAME, &bRet, shared_ptr<vector<BYTE> >(new vector<BYTE>).get(), pOutBuffer))
+		return bRet;
 
 	string strURI = GetURI();
 	if ((strURI == "/simple_server_plugin") ||
@@ -28,37 +30,37 @@ bool ClientForProxy::ContinuePost(vector<BYTE> *pInBuffer, vector<BYTE> *pOutBuf
 	return OnSimpleServerPluginPost(pInBuffer, pOutBuffer);
 }
 
-void ClientForProxy::UpdateRegisteredDNS()
+/*void ClientForProxy::UpdateRegisteredDNS()
 {
 	ClientForProxy::m_vRegisteredDNS.push_back(startup::CRegisteredDNS("langtest.ru", "193.107.236.167", 8085, 8443));
 	ClientForProxy::m_vRegisteredDNS.push_back(startup::CRegisteredDNS("multicoins.org", "104.236.180.129", 8088, 9443));
 //#ifdef _DEBUG
 //	ClientForProxy::m_vRegisteredDNS.push_back(startup::CRegisteredDNS("104.236.180.129", 8085, 8443));
 //#endif
-}
+}*/
 
 bool ClientForProxy::NeadCGI(const string &strURL, const string &strQuery, const map<string, string> &mapNameToValue) 
 {
-	if (!m_vProxyDNS.size())
+	/*if (!m_vProxyDNS.size())
 	{
 		//m_vProxyDNS.push_back("langtest.ru");
 		m_vProxyDNS.push_back(DNS_NAME);
 		//m_vProxyDNS.push_back("unblok.us");
-	}
+	}*/
 	
 	string strHost = (mapNameToValue.find("Host") == mapNameToValue.end()) ? "" : mapNameToValue.at("Host");
 	string strMethod = (mapNameToValue.find("Method") == mapNameToValue.end()) ? "" : mapNameToValue.at("Method");
 	string strFolder = (mapNameToValue.find(strMethod) == mapNameToValue.end()) ? "" : mapNameToValue.at(strMethod);
 	DEBUG_LOG("ClientForProxy::NeadCGI Host=%s; Method=%s", strHost.c_str(), strMethod.c_str());
 
-	if (!m_vRegisteredDNS.size())
-		UpdateRegisteredDNS();
+	//if (!m_vRegisteredDNS.size())
+	//	UpdateRegisteredDNS();
 
-	for (size_t i=0; i<m_vRegisteredDNS.size(); i++)
-	{
-		if (strHost.find(m_vRegisteredDNS[i].DNS()) != -1)
-			return true;
-	}
+	//for (size_t i=0; i<m_vRegisteredDNS.size(); i++)
+	//{
+	//	if (strHost.find(m_vRegisteredDNS[i].DNS()) != -1)
+	//		return true;
+	//}
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 #ifdef _DEBUG
@@ -70,11 +72,13 @@ bool ClientForProxy::NeadCGI(const string &strURL, const string &strQuery, const
 #endif
 ////////////////////////////////////////////////////////////////////////////////////////////
 
-	for (size_t n=0; n<m_vProxyDNS.size(); n++)
+	/*for (size_t n=0; n<m_vProxyDNS.size(); n++)
 	{
 		if ((strHost.find("."+m_vProxyDNS[n]) != -1) && (strHost.find("www." +m_vProxyDNS[n]) == -1))
 			return true;
-	}
+	}*/
+	if ((strHost.find(string(".") + DNS_NAME) != -1) && (strHost.find(string("www.") + DNS_NAME) == -1))
+		return true;
 
 #ifdef _DEBUG
 	if (strHost.find(" localhost") == 0)
@@ -335,11 +339,13 @@ bool ClientForProxy::OnSimpleServerPluginPost(vector<BYTE> *pInBuffer, vector<BY
 	}*/
 
 	bool bRet;
-	for (size_t n=0; n<m_vProxyDNS.size(); n++)
+	/*for (size_t n=0; n<m_vProxyDNS.size(); n++)
 	{
 		if (StartProxy(m_vProxyDNS[n], &bRet, pInBuffer, pOutBuffer))
 			return bRet;
-	}
+	}*/
+	if (StartProxy(DNS_NAME, &bRet, pInBuffer, pOutBuffer))
+		return bRet;
 
 	return false;
 }

@@ -1844,7 +1844,8 @@ namespace simple_server
 			const string strTmp = headers["Host"].substr(0, nDotLast);
 			const int nDotNext = strTmp.rfind('.');
 
-			m_strClientDNS = nDotNext > 0 ? headers["Host"].substr(nDotNext + 1) : DEFAULT_DNS_NAME;
+			m_strClientDNS = headers["Host"].substr(nDotNext + 1); 
+			if (m_strClientDNS[0] == ' ') m_strClientDNS = m_strClientDNS.substr(1);
 
 			m_httpHeader.ParseHeaderEnd(pServer->m_StartupInfo.GetIndex(), m_strClientDNS);
 
@@ -1928,6 +1929,7 @@ namespace simple_server
 					return;
 			}
 
+			DNS_NAME = m_strClientDNS;
 			if (pServer->m_StartupInfo.NeadCGI(m_strURI, m_httpHeader.GetQuery(), headers))
 			{
 				DEBUG_LOG("Nead CGI for url=%s", m_strURI.c_str());
@@ -2050,6 +2052,7 @@ namespace simple_server
 		inline void OnCGIContinue(CInterface<startupType> *pServer)
 		{
 			//DEBUG_LOG("Client call OnCGIContinue id=%i", m_CurrentAction.id());
+			DNS_NAME = m_strClientDNS;
 
 			vector<BYTE> vOut;
 
