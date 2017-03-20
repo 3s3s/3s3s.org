@@ -168,7 +168,7 @@ public:
 		if ((nSlash == strRight.npos) || (nSlash == 0))
 			return strLocation;
 
-		if (strRight.substr(0, nSlash).find("." DNS_NAME) != strRight.npos)
+		if (strRight.substr(0, nSlash).find(string(".") + DNS_NAME) != strRight.npos)
 			return strLocation;
 		if (strRight.substr(0, nSlash).find(".") == strRight.npos)
 		{
@@ -178,7 +178,7 @@ public:
 		if (strRight[nSlash-1] == '.') // for example: "http://www."
 			return strLocation;
 
-		string strHost = strRight.substr(0, nSlash) + "." DNS_NAME;
+		string strHost = strRight.substr(0, nSlash) + string(".") + DNS_NAME;
 
 		if (!IsValidHostName(strHost))
 			return strLocation;
@@ -221,7 +221,7 @@ private:
 		return true;
 	}
 
-	static const string DeleteSuffix(const string strIn, const string strSuffix = "." DNS_NAME)
+	static const string DeleteSuffix(const string strIn, const string strSuffix = string(".") + DNS_NAME)
 	{
 		string strRet = strIn;
 		int nPos = strRet.find(strSuffix);
@@ -251,7 +251,7 @@ private:
 		const string strLeft = bIsSSL?".h_t_t_p_s":"";
 		const string strMiddle = (nEnd>0)?strCookie.substr(nPosDomain+7, nEnd):"";
 
-		return strCookie.substr(0, nPosDomain+7) + /*strLeft +*/ strMiddle + "." DNS_NAME + strRight;
+		return strCookie.substr(0, nPosDomain+7) + /*strLeft +*/ strMiddle + string(".") + DNS_NAME + strRight;
 	}
 
 	/*static const string ReplaceTxt(const string &strAllOriginText, const string strForReplace, const string strNew)
@@ -347,7 +347,7 @@ private:
 			return strReferer;
 
 		string strHost = strRight.substr(0, nSlash);
-		int nPos3s3s = strHost.find("." DNS_NAME);
+		int nPos3s3s = strHost.find(string(".") + DNS_NAME);
 		if (nPos3s3s != strHost.npos)
 		{
 			string strTmp = strHost.substr(0, nPos3s3s);
@@ -394,7 +394,7 @@ private:
 				continue;
 
 			string strSecond = it->second;
-			if ((strSecond.find("." DNS_NAME) != -1) && (strSecond.find("://") != -1))
+			if ((strSecond.find(string(".") + DNS_NAME) != -1) && (strSecond.find("://") != -1))
 			//if (it->first.find("Referer") != -1)
 				strSecond = ChangeReferer(it->second);
 			if (it->first.find("Cookie") != -1 || it->first.find("cookie") != -1)

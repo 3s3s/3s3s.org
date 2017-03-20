@@ -177,7 +177,7 @@ void CTemplateSSP::ShowEN(map<string, string> values, const string strIP, bool b
 		(HTML() << 
 			(head() << 
 				title().add(GetTitle("en")) <<
-				html::link().rel("stylesheet").type("text/css").href("//"  DNS_NAME  "/style.css") <<
+				html::link().rel("stylesheet").type("text/css").href(string("//") +  DNS_NAME + "/style.css") <<
 				html::link().rel("stylesheet").type("text/css").href("//ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/redmond/jquery-ui.css") <<
 				meta().http_equiv("Content-Type").content("text/html; charset=utf-8") << 
 				meta().name("description").content(GetDescription("en")) <<

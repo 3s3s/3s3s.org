@@ -9,6 +9,8 @@ using namespace curl;
 #define CLIENT_T	ClientForProxy
 #include "./proxy/ClientForProxy.h"
 
+string DNS_NAME = DEFAULT_DNS_NAME;
+
 
 #ifndef _WIN32
 CStartupInfo<CLIENT_T> settings(80, 443, WWW_ROOT, WWW_ROOT "errorpages", "index.ssp");

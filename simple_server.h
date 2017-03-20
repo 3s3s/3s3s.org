@@ -1326,7 +1326,7 @@ namespace simple_server
 
 			if (m_strURI.rfind('/') == m_strURI.length()-1 && m_strURI.find("http://") == -1)
 			{
-				if (m_strHeader.find("." DNS_NAME) == -1 || m_strHeader.find(": www." DNS_NAME) != -1)
+				if (m_strHeader.find(string(".") + DNS_NAME) == -1 || m_strHeader.find(string(": www.") + DNS_NAME) != -1)
 					m_strURI += strIndex;//pServer->m_StartupInfo.GetIndex();
 			}
 
@@ -1900,6 +1900,12 @@ namespace simple_server
 			if (headers.find("Host") == headers.end() && headers.find("host") != headers.end())
 				headers["Host"] = headers["host"];
 
+			const int nDotLast = headers["Host"].rfind('.');
+			const string strTmp = headers["Host"].substr(0, nDotLast);
+			const int nDotNext = strTmp.rfind('.');
+
+			DNS_NAME = nDotNext > 0 ? headers["Host"].substr(nDotNext+1) : DEFAULT_DNS_NAME;
+
 			const string strPath = [](const string strURI) -> string
 				{
 					if (strURI.find("http://") != -1)
@@ -1914,7 +1920,7 @@ namespace simple_server
 				}(m_httpHeader.GetURI());
 
 			//string strWWW
-			if (headers["Host"].find("www." DNS_NAME) != -1)
+			if (headers["Host"].find(string("www.") + DNS_NAME) != -1)
 			{   //redirect www.3s3s.org -> 3s3s.org
 				ostringstream str;
 				str << "HTTP/1.1 301 Moved Permanently\r\n"
@@ -1925,7 +1931,7 @@ namespace simple_server
 				m_strResponceHeader = str.str();
 				return;
 			}
-			if (m_pSocket->IsSSL() && (headers["Host"].find(DNS_NAME) != -1) && (headers["Host"].find(" " DNS_NAME) == -1))
+			if (m_pSocket->IsSSL() && (headers["Host"].find(DNS_NAME) != -1) && (headers["Host"].find(string(" ") + DNS_NAME) == -1))
 			{
 				string strHost = headers["Host"];
 				while(strHost.find(" ") != -1)

@@ -49,7 +49,7 @@ const string CMakeUrlSSP::ValidateLong(const string strLong) const
 	if ((strRet.find("http://") != 0) && (strRet.find("https://") != 0))
 		strRet = "http://"+strRet;
 
-	const string strProxy = "." DNS_NAME;
+	const string strProxy = string(".") + DNS_NAME;
 
 	int nPos = strRet.find(strProxy);
 	while (nPos != strRet.npos)

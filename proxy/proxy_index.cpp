@@ -26,7 +26,7 @@ const string CIndexSSP::CreateShorUrlForm(const string strLang) const
 		tblCreate[3][0].insert(DIV().add("Desired name (optional):"));
 	}
 
-	tblCreate[4][0].insert(tt().add("http://") << input("", "custom_alias").type("text").size("20").maxlength("30") << tt().add("_." DNS_NAME));
+	tblCreate[4][0].insert(tt().add("http://") << input("", "custom_alias").type("text").size("20").maxlength("30") << tt().add(string("_.") + DNS_NAME));
 	
 	if (strLang == "ru")
 		tblCreate[5][0].insert("<i>(Должно содержать только цифры и латинские буквы)</i>");
@@ -151,9 +151,9 @@ const string CIndexSSP::GetTitle(const string strLang) const
 const string CIndexSSP::GetDescription(const string strLang) const
 {
 	if (strLang == "en")
-		return "Go to a blocked site can be easily and simply. Add to the end of the address '."  DNS_NAME  "' and site will unblocked. Enter the site address in the text box and click 'Unblock' key.";
+		return string("Go to a blocked site can be easily and simply. Add to the end of the address '.") +  DNS_NAME  + "' and site will unblocked. Enter the site address in the text box and click 'Unblock' key.";
 	if (strLang == "ru")
-		return ConvertString("Зайти на заблокированный сайт можно легко и просто, добавив в конец адреса строку '."  DNS_NAME  "'. Введите адрес заблокированного сайта в текстовое поле и нажмите на кнопку 'Перейти'");
+		return ConvertString(string("Зайти на заблокированный сайт можно легко и просто, добавив в конец адреса строку '.") + DNS_NAME +  "'. Введите адрес заблокированного сайта в текстовое поле и нажмите на кнопку 'Перейти'");
 }
 
 const string CIndexSSP::GetKeywords(const string strLang) const

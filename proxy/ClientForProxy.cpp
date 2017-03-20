@@ -98,7 +98,7 @@ bool ClientForProxy::NeadCGI(const string &strURL, const string &strQuery, const
 	}
 #endif
 
-	if (strHost.find(" " DNS_NAME) != -1 || strHost.find(" www." DNS_NAME) != -1)
+	if (strHost.find(string(" ") + DNS_NAME) != -1 || strHost.find(string(" www.") + DNS_NAME) != -1)
 	{
 		DEBUG_LOG("My site start");
 

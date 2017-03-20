@@ -365,7 +365,7 @@ void CSSPProxy::InjectFooter(vector<BYTE> *pReadedBytes)
 		strHTML = (const char *)&vGZIP[0];
 	}
 	
-	int nPosInjected = strHTML.find("Anonymoused by www." DNS_NAME );
+	int nPosInjected = strHTML.find(string("Anonymoused by www.") + DNS_NAME );
 	DEBUG_LOG("InjectFooter find1 - ok");
 	if (nPosInjected > 0)
 	{
@@ -377,7 +377,7 @@ void CSSPProxy::InjectFooter(vector<BYTE> *pReadedBytes)
 	DEBUG_LOG("InjectFooter find2 - ok");
 	if (nPosBODYEnd > 0)
 	{
-		string strInjectString = "<div style='display:block; width:100%; height: 10px'><center><a href='http://www." DNS_NAME "'>Anonymoused by www."  DNS_NAME  "</s></center></div>";
+		string strInjectString = string("<div style='display:block; width:100%; height: 10px'><center><a href='http://www.") + DNS_NAME + "'>Anonymoused by www."  + DNS_NAME  + "</s></center></div>";
 		string strTemp = strHTML.substr(0, nPosBODYEnd) + strInjectString + strHTML.substr(nPosBODYEnd, strHTML.length()-nPosBODYEnd);
 
 		pReadedBytes->resize(strTemp.length());
@@ -1170,11 +1170,11 @@ bool CSSPProxy::Continue(const string strHost0, const string strURI, const map<s
 		m_strURL = [this](const string strURL) -> string
 			{
 				string strRet = strURL;
-				int nPos = strRet.find("." DNS_NAME);
-				while((nPos = strRet.find("." DNS_NAME)) != strRet.npos)
+				int nPos = strRet.find(string(".") + DNS_NAME);
+				while((nPos = strRet.find(string(".") + DNS_NAME)) != strRet.npos)
 				{
 					string strLeft = strRet.substr(0, nPos);
-					string strRight = strRet.substr(nPos+strlen(DNS_NAME)+1);
+					string strRight = strRet.substr(nPos+DNS_NAME.length()+1);
 					strRet = strLeft+strRight;
 				}
 				return strRet;

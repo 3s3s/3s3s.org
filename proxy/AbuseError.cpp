@@ -13,18 +13,18 @@ const string CAbuseErrorSSP::MiddleContent(const string strLang) const
 	DEBUG_LOG("CAbuseErrorSSP::MiddleContent referrer=%s", GetValue("referer").c_str());
 
 	const string strTextRu = 
-			"<div>Вы пытаетесь использовать анонимайзер "  DNS_NAME  " для того, чтобы зайти на сайт: <br><br>"
+			string("<div>Вы пытаетесь использовать анонимайзер ") +  DNS_NAME + " для того, чтобы зайти на сайт: <br><br>"
 			"<span class='bad_link'>"+GetValue("referer")+"</span><br><br>"+
 			"<b>Будьте осторожны!</b> Возможно владельцы этого сайта шпионят за пользователями! <br><br>"
-			"ПРЕДУПРЕЖДАЕМ: веб-анонимайзеры (в том числе и "  DNS_NAME  ") не гарантируют вам полную анонимность. Для большей безопасности используйте прокси-серверы или VPN-серверы.<br><br>"
+			"ПРЕДУПРЕЖДАЕМ: веб-анонимайзеры (в том числе и "  + DNS_NAME  + ") не гарантируют вам полную анонимность. Для большей безопасности используйте прокси-серверы или VPN-серверы.<br><br>"
 			"Мы не хотим брать на себя ответственность за действия сторонних сайтов, но вы можете использовать любой другой популярный анонимайзер, например <a href='http://anonymouse.org/'>http://anonymouse.org/</a>"
 			"</div>";
 
 	const string strTextEN = 
-			"<div>You are trying to use anonymizer "  DNS_NAME  " to go to the site: <br><br>"
+			string("<div>You are trying to use anonymizer ")  + DNS_NAME  + " to go to the site: <br><br>"
 			"<span class='bad_link'>"+GetValue("referer")+"</span><br><br>"+
 			"<b>Be careful!</b> Perhaps the owners of this site are spying on users! <br><br>"
-			"WARNING: Web anonymizers (including "  DNS_NAME  ") does not guarantee you the full anonymity. For extra safety, use proxy servers or VPN-servers.<br><br>"
+			"WARNING: Web anonymizers (including "  + DNS_NAME  + ") does not guarantee you the full anonymity. For extra safety, use proxy servers or VPN-servers.<br><br>"
 			"We do not want to take responsibility for the actions of third-party sites, but you can use any other popular anonymizer, for example <a href='http://anonymouse.org/'>http://anonymouse.org/</a>"
 			"</div>";
 	

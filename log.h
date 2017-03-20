@@ -1,4 +1,4 @@
-#define DNS_NAME	"3s3s.ru"
+#define DEFAULT_DNS_NAME	"3s3s.ru"
 
 #define WWW_ROOT	"wwwroot"
 
@@ -20,3 +20,6 @@ void debug_log(char const* fmt, ...);
 #else
 #define DEBUG_LOG //
 #endif
+
+#include <string>
+extern std::string DNS_NAME;
