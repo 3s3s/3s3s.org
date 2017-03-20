@@ -1264,7 +1264,7 @@ namespace simple_server
 			return strRet;
 		}
 		string m_strHeader;
-		void Parse(const shared_ptr<CSocket> pSocket, const string &strIndex)
+		void Parse(const shared_ptr<CSocket> pSocket)
 		{
 			Clear();
 
@@ -1318,15 +1318,19 @@ namespace simple_server
 			else
 			{
 				m_strURI = strFullAddress.substr(0, nPos);
-				m_strQuery = strFullAddress.substr(nPos+1);
+				m_strQuery = strFullAddress.substr(nPos + 1);
 			}
 
 			if (m_strURI.find("..") != m_strURI.npos)
 				m_strURI = "/";
 
-			if (m_strURI.rfind('/') == m_strURI.length()-1 && m_strURI.find("http://") == -1)
+		}
+
+		void ParseHeaderEnd(const string &strIndex, const string &strClientDNS)
+		{
+			if (m_strURI.rfind('/') == m_strURI.length() - 1 && m_strURI.find("http://") == -1)
 			{
-				if (m_strHeader.find(string(".") + DNS_NAME) == -1 || m_strHeader.find(string(": www.") + DNS_NAME) != -1)
+				if (m_strHeader.find(string(".") + strClientDNS) == -1 || m_strHeader.find(string(": www.") + strClientDNS) != -1)
 					m_strURI += strIndex;//pServer->m_StartupInfo.GetIndex();
 			}
 
@@ -1376,6 +1380,7 @@ namespace simple_server
 	class CClient
 	{
 		uint64_t m_uiAllSended;
+		string m_strClientDNS;
 		class CAction
 		{
 			ACTION m_nAction;
@@ -1829,7 +1834,19 @@ namespace simple_server
 			m_bHeaderReaded = true;
 
 			m_httpHeader.Clear();
-			m_httpHeader.Parse(m_pSocket, pServer->m_StartupInfo.GetIndex());
+			m_httpHeader.Parse(m_pSocket); // , pServer->m_StartupInfo.GetIndex());
+
+			map<string, string> headers = m_httpHeader.GetHeadersMap();
+			if (headers.find("Host") == headers.end() && headers.find("host") != headers.end())
+				headers["Host"] = headers["host"];
+
+			const int nDotLast = headers["Host"].rfind('.');
+			const string strTmp = headers["Host"].substr(0, nDotLast);
+			const int nDotNext = strTmp.rfind('.');
+
+			m_strClientDNS = nDotNext > 0 ? headers["Host"].substr(nDotNext + 1) : DEFAULT_DNS_NAME;
+
+			m_httpHeader.ParseHeaderEnd(pServer->m_StartupInfo.GetIndex(), m_strClientDNS);
 
 			if ((IsBlacklistedRequest(m_httpHeader)) && (g_vWhiteListedIP.find(GetIP()) == g_vWhiteListedIP.end()))
 			{
@@ -1837,37 +1854,6 @@ namespace simple_server
 				m_CurrentAction.Set(A_ERROR);
 				return;
 			}
-
-#if 0
-			string strUserAgent = m_httpHeader.GetValue("User-Agent");
-			if ((strUserAgent.find("python-requests") != strUserAgent.npos) && (strUserAgent.find("CPython") != strUserAgent.npos))
-			{
-				d2_printf("error: Python bot disable\n");
-				m_CurrentAction.Set(A_ERROR);
-				return;
-			}
-			if (strUserAgent.find("www.sentibot.eu") != strUserAgent.npos)
-			{
-				d2_printf("error: www.sentibot.eu bot disable\n");
-				m_CurrentAction.Set(A_ERROR);
-				return;
-			}
-
-			const string strReferer = m_httpHeader.GetValue("Referer");
-			if (strReferer.find("www.wspack.kr") != strReferer.npos)
-			{
-				d2_printf("error: www.wspack.kr bot disable\n");
-				m_CurrentAction.Set(A_ERROR);
-				return;
-			}
-			/*if ((strUserAgent.find("Trident/") != strUserAgent.npos))
-			{
-				d2_printf("error: Trident bot disable\n");
-				m_CurrentAction.Set(A_ERROR);
-				return;
-			}*/
-#endif
-
 
 			string strEncode = m_httpHeader.GetValue("Accept-Encoding");
 			if (strEncode.find("gzip") != strEncode.npos)
@@ -1878,9 +1864,6 @@ namespace simple_server
 				(strConnection.find("Keep-Alive") != strConnection.npos || 
 				strConnection.find("keep-alive") != strConnection.npos) ? true : false;
 			if (m_pSocket->IsSSL()) m_bKeepAlive = false;
-
-			//string strConnection = m_httpHeader.GetValue("Connection");
-			//if (strConnection.find(""))
 
 			string strURI = pServer->m_StartupInfo.GetRoot().c_str();
 			strURI += m_httpHeader.GetURI();//GetURIFromHeader(&pServer->m_strDefault);
@@ -1896,10 +1879,6 @@ namespace simple_server
 
 			m_strLastURI = m_strURI = strURI;
 
-			map<string, string> headers = m_httpHeader.GetHeadersMap();
-			if (headers.find("Host") == headers.end() && headers.find("host") != headers.end())
-				headers["Host"] = headers["host"];
-
 			const string strPath = [](const string strURI) -> string
 				{
 					if (strURI.find("http://") != -1)
@@ -1914,18 +1893,18 @@ namespace simple_server
 				}(m_httpHeader.GetURI());
 
 			//string strWWW
-			if (headers["Host"].find(string("www.") + DNS_NAME) != -1)
+			if (headers["Host"].find(string("www.") + m_strClientDNS) != -1)
 			{   //redirect www.3s3s.org -> 3s3s.org
 				ostringstream str;
 				str << "HTTP/1.1 301 Moved Permanently\r\n"
-					<< "Location: " << "http://" << DNS_NAME << strPath << "\r\n"
+					<< "Location: " << "http://" << m_strClientDNS << strPath << "\r\n"
 					<< "Content-Length: " << 0 << "\r\n"
 					<< "Connection: close\r\n" 
 					<< "\r\n";
 				m_strResponceHeader = str.str();
 				return;
 			}
-			if (m_pSocket->IsSSL() && (headers["Host"].find(DNS_NAME) != -1) && (headers["Host"].find(string(" ") + DNS_NAME) == -1))
+			if (m_pSocket->IsSSL() && (headers["Host"].find(m_strClientDNS) != -1) && (headers["Host"].find(string(" ") + m_strClientDNS) == -1))
 			{
 				string strHost = headers["Host"];
 				while(strHost.find(" ") != -1)
@@ -1951,20 +1930,6 @@ namespace simple_server
 
 			if (pServer->m_StartupInfo.NeadCGI(m_strURI, m_httpHeader.GetQuery(), headers))
 			{
-				const int nDotLast = headers["Host"].rfind('.');
-				const string strTmp = headers["Host"].substr(0, nDotLast);
-				const int nDotNext = strTmp.rfind('.');
-				const string strTmp2 = headers["Host"].substr(0, nDotNext);
-
-				if (strTmp2.find('.') == -1)
-				{
-					d2_printf("error: bad url for redirect\n");
-					m_CurrentAction.Set(A_ERROR);
-					return;
-				}
-
-				DNS_NAME = nDotNext > 0 ? headers["Host"].substr(nDotNext + 1) : DEFAULT_DNS_NAME;
-
 				DEBUG_LOG("Nead CGI for url=%s", m_strURI.c_str());
 				m_CurrentAction.Set(A_CGI_START);
 				return;
