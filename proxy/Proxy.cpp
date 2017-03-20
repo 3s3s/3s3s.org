@@ -975,9 +975,9 @@ bool CSSPProxy::Continue(const string strHost0, const string strURI, const map<s
 	//DEBUG_LOG("CSSPProxy::Continue strHost=%s", strHost.c_str());
 //	string str = ChangeReferer("https://m.facebook.com");//\r\nAccept_Encoding: deflate\r\nAccept:text/html\r\n\r\n");
 	string strLocation = GetLocation(strHost);
-	DEBUG_LOG("strLocation=%s", strLocation.c_str());
 	if (strLocation.length())
 	{
+		DEBUG_LOG("strLocation=%s", strLocation.c_str());
 		m_bIsLocation = true;
 		DEBUG_LOG("Proxy Location: %s", strLocation.c_str());
 		/*if ((strHost.length() >= 2) && strHost.rfind(".0") != strHost.length()-2)
