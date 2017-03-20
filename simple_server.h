@@ -1900,12 +1900,6 @@ namespace simple_server
 			if (headers.find("Host") == headers.end() && headers.find("host") != headers.end())
 				headers["Host"] = headers["host"];
 
-			const int nDotLast = headers["Host"].rfind('.');
-			const string strTmp = headers["Host"].substr(0, nDotLast);
-			const int nDotNext = strTmp.rfind('.');
-
-			DNS_NAME = nDotNext > 0 ? headers["Host"].substr(nDotNext+1) : DEFAULT_DNS_NAME;
-
 			const string strPath = [](const string strURI) -> string
 				{
 					if (strURI.find("http://") != -1)
@@ -1957,6 +1951,20 @@ namespace simple_server
 
 			if (pServer->m_StartupInfo.NeadCGI(m_strURI, m_httpHeader.GetQuery(), headers))
 			{
+				const int nDotLast = headers["Host"].rfind('.');
+				const string strTmp = headers["Host"].substr(0, nDotLast);
+				const int nDotNext = strTmp.rfind('.');
+				const string strTmp2 = headers["Host"].substr(0, nDotNext);
+
+				if (strTmp2.find('.') == -1)
+				{
+					d2_printf("error: bad url for redirect\n");
+					m_CurrentAction.Set(A_ERROR);
+					return;
+				}
+
+				DNS_NAME = nDotNext > 0 ? headers["Host"].substr(nDotNext + 1) : DEFAULT_DNS_NAME;
+
 				DEBUG_LOG("Nead CGI for url=%s", m_strURI.c_str());
 				m_CurrentAction.Set(A_CGI_START);
 				return;
