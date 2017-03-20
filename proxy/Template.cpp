@@ -235,7 +235,7 @@ td().style("text-align: right").add(
 #ifdef _WIN32
 #define MAIN_CSS	"style.css"
 #else
-#define MAIN_CSS	"//"  DNS_NAME  "/style.css"
+#define MAIN_CSS	string("//") +  DNS_NAME +  "/style.css"
 #endif
 
 void CTemplateSSP::Show(map<string, string> values, const string strIP, bool bHasGZip, vector<BYTE> *pOut)
