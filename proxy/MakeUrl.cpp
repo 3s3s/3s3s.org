@@ -145,12 +145,16 @@ const string CMakeUrlSSP::OnMakeNew(const string strLong, const string strAlias,
 
 	if (strValidAlias.length())
 	{
-		orm::CTable exist = orm::CTable("LINKS").Where("creatorIP=\'%s\' AND time+86400 > %i", strIP.c_str(), (int)time(NULL)).GetAllTable();
+		orm::CTable exist = orm::CTable("LINKS").Where("creatorIP=\'%s\' AND time+60 > %i", strIP.c_str(), (int)time(NULL)).GetAllTable();
 		
-#ifndef _DEBUG
+//#ifndef _DEBUG
 		if (exist.GetRowsCount())
-			return "{\"result\": false, \"reason\": \"wait24\"}";
-#endif
+		{
+			const string strTimeLast = exist[0][2];
+			//DEBUG_LOG("CMakeUrlSSP::Show start");
+			return string("{\"result\": false, \"reason\": \"wait24\", \"time_last\": \"") + strTimeLast + "\", \"time\": \"" + to_string(time(NULL)) + "\"}";
+		}
+//#endif
 
 		orm::CTable("LINKS").InsertOrAbort("\'%s\', \'%s\', %i, \'%s\', \'%s\'", 
 			strValidLong.c_str(), strValidAlias.c_str(), (int)tmCurrent, strIP.c_str(), strStatus.c_str());
