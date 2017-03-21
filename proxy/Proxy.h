@@ -34,6 +34,7 @@ class CSSPProxy
 
 	string m_strProxy, m_strCurrentDNS;
 public:
+	string GetCurrentDNS() const { return m_strCurrentDNS; }
 	class CResolvedIP
 	{
 	public:
