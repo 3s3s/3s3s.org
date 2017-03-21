@@ -1,13 +1,13 @@
-#!/usr/bin/python
+#!/usr/bin/python3.5
 
 import os
 import time
 
-HOME_DIR = '/home/test/3s3s'
+HOME_DIR = '/root/3s3s.org'
 os.chdir(HOME_DIR)
 
 f = open('start.log', 'w')
-print f
+print (f)
 f.write('start log\n')
 f.flush()
 
