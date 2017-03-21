@@ -804,7 +804,7 @@ curl_socket_t opensocket_callback(void *clientp,
 
 	auto it = g_mapHostToIP.find(pThis->m_strHost);
 
-	if (it != g_mapHostToIP.end() || (pThis->m_strHost.find(m_strCurrentDNS) != -1))
+	if (it != g_mapHostToIP.end() || (pThis->m_strHost.find(DNS_NAME) != -1))
 		return socket(addr->family, addr->socktype, addr->protocol);
 
 	const string strIP = [](struct sockaddr SinAddr) -> string
