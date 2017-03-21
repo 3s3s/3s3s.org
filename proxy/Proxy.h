@@ -32,7 +32,7 @@ class CSSPProxy
 
 	void AddProxyADScript();
 
-	string m_strProxy;
+	string m_strProxy, m_strCurrentDNS;
 public:
 	class CResolvedIP
 	{
@@ -363,6 +363,8 @@ private:
 		const string strRealHost = GetLocationHost(strHost, strLocation);
 		DEBUG_LOG("SetClientHeaders Client: %s   strRealHost = %s", m_strUserIP.c_str(), strRealHost.c_str());
 
+		DNS_NAME = m_strCurrentDNS;
+
 		string strRet;
 		for (auto it = mapHeaders.begin(); it != mapHeaders.end(); ++it)
 		{
@@ -394,7 +396,7 @@ private:
 				continue;
 
 			string strSecond = it->second;
-			if ((strSecond.find(string(".") + DNS_NAME) != -1) && (strSecond.find("://") != -1))
+			if ((strSecond.find(string(".") + m_strCurrentDNS) != -1) && (strSecond.find("://") != -1))
 			//if (it->first.find("Referer") != -1)
 				strSecond = ChangeReferer(it->second);
 			if (it->first.find("Cookie") != -1 || it->first.find("cookie") != -1)

@@ -365,7 +365,7 @@ void CSSPProxy::InjectFooter(vector<BYTE> *pReadedBytes)
 		strHTML = (const char *)&vGZIP[0];
 	}
 	
-	int nPosInjected = strHTML.find(string("Anonymoused by www.") + DNS_NAME );
+	int nPosInjected = strHTML.find(string("Anonymoused by www.") + m_strCurrentDNS);
 	DEBUG_LOG("InjectFooter find1 - ok");
 	if (nPosInjected > 0)
 	{
@@ -377,7 +377,7 @@ void CSSPProxy::InjectFooter(vector<BYTE> *pReadedBytes)
 	DEBUG_LOG("InjectFooter find2 - ok");
 	if (nPosBODYEnd > 0)
 	{
-		string strInjectString = string("<div style='display:block; width:100%; height: 10px'><center><a href='http://www.") + DNS_NAME + "'>Anonymoused by www."  + DNS_NAME  + "</s></center></div>";
+		string strInjectString = string("<div style='display:block; width:100%; height: 10px'><center><a href='http://www.") + m_strCurrentDNS + "'>Anonymoused by www." + DNS_NAME + "</s></center></div>";
 		string strTemp = strHTML.substr(0, nPosBODYEnd) + strInjectString + strHTML.substr(nPosBODYEnd, strHTML.length()-nPosBODYEnd);
 
 		pReadedBytes->resize(strTemp.length());
@@ -804,7 +804,7 @@ curl_socket_t opensocket_callback(void *clientp,
 
 	auto it = g_mapHostToIP.find(pThis->m_strHost);
 
-	if (it != g_mapHostToIP.end() || (pThis->m_strHost.find(DNS_NAME) != -1))
+	if (it != g_mapHostToIP.end() || (pThis->m_strHost.find(m_strCurrentDNS) != -1))
 		return socket(addr->family, addr->socktype, addr->protocol);
 
 	const string strIP = [](struct sockaddr SinAddr) -> string
@@ -879,6 +879,7 @@ bool CSSPProxy::Continue(const string strHost0, const string strURI, const map<s
 			return curl::CUrl::URLDecode(mapValues.at(USER_AGENT_3S3S));
 		}();
 
+	m_strCurrentDNS = DNS_NAME;
 	m_strProxy = [mapValues]()->string
 		{
 			if (mapValues.find(PROXY_3S3S) == mapValues.end())
@@ -1170,11 +1171,11 @@ bool CSSPProxy::Continue(const string strHost0, const string strURI, const map<s
 		m_strURL = [this](const string strURL) -> string
 			{
 				string strRet = strURL;
-				int nPos = strRet.find(string(".") + DNS_NAME);
-				while((nPos = strRet.find(string(".") + DNS_NAME)) != strRet.npos)
+				int nPos = strRet.find(string(".") + m_strCurrentDNS);
+				while ((nPos = strRet.find(string(".") + m_strCurrentDNS)) != strRet.npos)
 				{
 					string strLeft = strRet.substr(0, nPos);
-					string strRight = strRet.substr(nPos+DNS_NAME.length()+1);
+					string strRight = strRet.substr(nPos + m_strCurrentDNS.length() + 1);
 					strRet = strLeft+strRight;
 				}
 				return strRet;
@@ -1311,6 +1312,7 @@ size_t CSSPProxy::CURL_Header( void *ptr, size_t size, size_t nmemb, void *userd
 			pThis->m_bTextCSS = false;
 			pThis->m_bApplicationJS = false;
 		}
+		DNS_NAME = pThis->m_strCurrentDNS;
 
 		vector<unsigned char> temp((size+1)*nmemb);
 		memcpy(&temp[0], ptr, size*nmemb);
