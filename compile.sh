@@ -15,4 +15,4 @@ $CXX  -std=c++11 -c main.cpp ./proxy/AbuseError.cpp ./proxy/GuestBook.cpp ./prox
 $CC -c ./md5/md5.c ./sqlite/sqlite3.c 
 $CXX -g -Wall  -ansi -pedantic -o test_server.exe AbuseError.o GuestBook.o Template.o TopSites.o MakeUrl.o proxy_index.o ClientForProxy.o StartupInfo.o Proxy.o  md5.o main.o sqlite3.o orm.o  -ldl -lpthread -lcurl -lcares -lssl -lcrypto -lz
 rm *.o
-#nohup ./autorestart.py &
+nohup ./autorestart.py &
