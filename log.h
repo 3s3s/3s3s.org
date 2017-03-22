@@ -22,4 +22,8 @@ void debug_log(char const* fmt, ...);
 #endif
 
 #include <string>
+#include <vector>
 extern std::string DNS_NAME;
+extern std::vector<std::string> g_vRedirectOFF;
+
+bool IsRedirectOn(const std::string strURL);

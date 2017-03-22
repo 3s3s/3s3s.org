@@ -414,8 +414,9 @@ bool CSSPProxy::FlushBody(vector<BYTE> *pOutBuffer)
 
 		if (!m_bInProxyMode2)
 		{
-			if ((m_strURL.find("play.google.com") == -1) && (m_strURL.find("raw.githubusercontent.com/3s3s") == -1) &&
-				(m_strURL.find("3s3s.github.io/github.io") == -1))
+			//if ((m_strURL.find("play.google.com") == -1) && (m_strURL.find("raw.githubusercontent.com/3s3s") == -1) &&
+			//	(m_strURL.find("3s3s.github.io/github.io") == -1))
+			if (IsRedirectOn(m_strURL))
 			{
 				AddProxyADScript();
 				InjectScript("head");
@@ -444,8 +445,7 @@ bool CSSPProxy::FlushBody(vector<BYTE> *pOutBuffer)
 		//}
 	}*/
 
-	if ((m_bTextHtml || m_bTextCSS || m_bApplicationJS) && (m_strURL.find("raw.githubusercontent.com/3s3s") == -1) &&
-		(m_strURL.find("3s3s.github.io/github.io") == -1))
+	if ((m_bTextHtml || m_bTextCSS || m_bApplicationJS) && IsRedirectOn(m_strURL))
 	{
 //ifdef _DEBUG
 		/*if (m_strURL.find(".js") == m_strURL.length()-3)
