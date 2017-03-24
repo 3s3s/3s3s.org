@@ -1028,11 +1028,11 @@ namespace simple_server
 			{
 				m_nSendPosition += err;
 
-				//Если удалось послать все данные, то переходим к следующему состоянию
+				//Г…Г±Г«ГЁ ГіГ¤Г Г«Г®Г±Гј ГЇГ®Г±Г«Г ГІГј ГўГ±ГҐ Г¤Г Г­Г­Г»ГҐ, ГІГ® ГЇГҐГ°ГҐГµГ®Г¤ГЁГ¬ ГЄ Г±Г«ГҐГ¤ГіГѕГ№ГҐГ¬Гі Г±Г®Г±ГІГ®ГїГ­ГЁГѕ
 				if ((size_t)err == m_sendBuffer.size())
 					return true;
 
-				//Если отослали не все данные, то оставим в буфере только то, что еще не послано
+				//Г…Г±Г«ГЁ Г®ГІГ®Г±Г«Г Г«ГЁ Г­ГҐ ГўГ±ГҐ Г¤Г Г­Г­Г»ГҐ, ГІГ® Г®Г±ГІГ ГўГЁГ¬ Гў ГЎГіГґГҐГ°ГҐ ГІГ®Г«ГјГЄГ® ГІГ®, Г·ГІГ® ГҐГ№ГҐ Г­ГҐ ГЇГ®Г±Г«Г Г­Г®
 				vector<unsigned char> vTemp(m_sendBuffer.size()-err);
 				memcpy(&vTemp[0], &m_sendBuffer[err], m_sendBuffer.size()-err);
 				m_sendBuffer = move(vTemp);
@@ -1299,10 +1299,7 @@ namespace simple_server
 						if ((nPos1 != strSecond.npos) && (nPos1+9 < strSecond.length()))
 							m_strBoundary = strSecond.substr(nPos1+9);
 					}
-					/*else if (strSecond.find("application/x-www-form-urlencoded") != strSecond.npos)
-					{
-						m_strQuery = GetCurrentBody()[];
-					}*/
+					strFirst = "Content-Type";
 				}
 
 				m_mapNameToValue[strFirst] = strSecond;
@@ -2784,7 +2781,7 @@ namespace simple_server
 			select(m_nFDS, &m_Interface.m_readfds, &m_Interface.m_writefds, &m_Interface.m_exceptfds, &tv);
 
 			auto it = m_Clients.begin();
-			while (m_Clients.size() && it != m_Clients.end()) //Перечисляем всех клиентов
+			while (m_Clients.size() && it != m_Clients.end()) //ГЏГҐГ°ГҐГ·ГЁГ±Г«ГїГҐГ¬ ГўГ±ГҐГµ ГЄГ«ГЁГҐГ­ГІГ®Гў
 			{
 				Sleep(5);
 				if ((GetSpeed(it->second) > 1) && (!InWhiteList(it->second->GetIP())))
