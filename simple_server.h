@@ -2490,10 +2490,10 @@ namespace simple_server
 					DEBUG_LOG("Check blacklist ip=%s; count=%i; Speed=%i; PostSpeed=%i", strIP.c_str(), it2->second->Count(), it2->second->GetSpeed(), it2->second->GetPostSpeed());
 
 					int nMaxCount = 10;
-					if (m_nSocketsCount > 200)
+					/*if (m_nSocketsCount > 200)
 						nMaxCount = 5;
 					if (m_nSocketsCount > 400)
-						nMaxCount = 2;
+						nMaxCount = 2;*/
 
 					if ((it2->second->Count()) > nMaxCount && (!bInWhiteList))
 					{
@@ -2706,7 +2706,7 @@ namespace simple_server
 
 				CloseTimeouts();
 			}
-			Sleep(5);
+			Sleep(1);
 #ifdef _EPOLL
 			if (m_nSocketsCount == 2)
 				m_Clients.clear();
@@ -2718,8 +2718,8 @@ namespace simple_server
 
 			for (int i = 0; i < n; i++)
 			{
-				if (n > 100)
-					usleep(1);
+				//if (n > 100)
+				//	usleep(1);
 
 				AcceptClients(m_pListenSocket);
 				AcceptClients(m_pListenSocketSSL);
@@ -2765,7 +2765,7 @@ namespace simple_server
 			auto it = m_Clients.begin();
 			while (m_Clients.size() && it != m_Clients.end()) //Ïåðå÷èñëÿåì âñåõ êëèåíòîâ
 			{
-				Sleep(5);
+				Sleep(1);
 				if ((GetSpeed(it->second) > 1) && (!InWhiteList(it->second->GetIP())))
 					continue;
 				CallbackClient(it++);
