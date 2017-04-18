@@ -24,10 +24,10 @@ $(function()
 	{
 		window.location.href = window.location.protocol + "//" + "3s3s.org" + window.location.pathname
 	}*/
-	if (GetMyDomain() == '3s3s.org')
+	/*if (GetMyDomain() == '3s3s.org')
 	{
 		alert('Domain 3s3s.org has been blocked in Russia ((( You can use 3s3s.ru for a while.');
-	}
+	}*/
 	
 	deleteAllCookies("");
 
