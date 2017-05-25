@@ -88,6 +88,7 @@ void CSSPProxy::InjectScript(const string strTagName)
 	if ((utils::ci_find_substr( strHTML, "</html>" ) == -1) &&
 		(utils::ci_find_substr( strHTML, "</script>" ) == -1))
 	{
+		m_bFirstBodySended = false;
 		pReadedBytes->pop_back();
 		return;
 	}
