@@ -9,6 +9,9 @@ using namespace curl;
 #define CLIENT_T	ClientForProxy
 #include "./proxy/ClientForProxy.h"
 
+string DNS_NAME = DEFAULT_DNS_NAME;
+vector<string> g_vRedirectOFF;
+
 
 #ifndef _WIN32
 CStartupInfo<CLIENT_T> settings(80, 443, WWW_ROOT, WWW_ROOT "errorpages", "index.ssp");
@@ -23,6 +26,9 @@ unordered_map<string, shared_ptr<CProxyInfo> > simple_server::g_mapProxyInfo;
 
 int main()
 {
+	g_vRedirectOFF.push_back("raw.githubusercontent.com/3s3s");
+	g_vRedirectOFF.push_back("3s3s.github.io/cdn");
+
 	orm::CTable::CreateTable("UsersSites", "(url TEXT, title TEXT, description TEXT, UserIP TEXT, time INTEGER, flag INTEGER)");
 
 	//orm::CTable::ExecuteSQL("DROP TABLE LINKS");
@@ -41,6 +47,16 @@ int main()
 		server.Continue();
 	}
 	return 0;
+}
+
+bool IsRedirectOn(const string strURL)
+{
+	for (size_t n = 0; n < g_vRedirectOFF.size(); n++)
+	{
+		if (strURL.find(g_vRedirectOFF[n]) != -1)
+			return false;
+	}
+	return true;
 }
 
 #ifdef _DEBUG_LOG

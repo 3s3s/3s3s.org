@@ -18,7 +18,7 @@ namespace startup
 		A_END
 	};
 
-	class CRegisteredDNS
+	/*class CRegisteredDNS
 	{ 
 		string m_strDNS, m_strIP;
 		int m_nPort, m_nSSLPort;
@@ -29,7 +29,7 @@ namespace startup
 		const string IP() const {return m_strIP;}
 		const int Port() const {return m_nPort;}
 		const int SSLPort() const {return m_nSSLPort;}
-	};
+	};*/
 
 	class CPostContent
 	{

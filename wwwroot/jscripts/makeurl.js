@@ -74,8 +74,9 @@ $(function()
 							$("#short_links_table").remove();
 							$("#short_links").append(
 								"<div id='short_links_table'><span style='color:red'>"+
-									"Sorry. Only one domain name in 24 hours available."+
-								"</span><br><span>To get a short link without domain, please clean the alias field.<span>"+
+									"Sorry. Only one domain name in 24 hours available. Remain "+(86400 - (data.time-data.time_last)) + " seconds" +
+								"</span>"+
+								"<br><span>To get a short link without domain, please clean the alias field.<span>"+
 								"</div>");
 						}
 						return;

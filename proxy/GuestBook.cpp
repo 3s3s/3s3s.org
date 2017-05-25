@@ -62,15 +62,15 @@ const string CGuestBookSSP::GetTitle(const string strLang) const
 const string CGuestBookSSP::GetDescription(const string strLang) const
 {
 	if (strLang == "en")
-		return "Tell us what you think about anonymizer sites "  DNS_NAME  ". What do you need? What sites are having problems?";
+		return string("Tell us what you think about anonymizer sites ") + DNS_NAME +  ". What do you need? What sites are having problems?";
 	if (strLang == "ru") 
-		return ConvertString("Расскажите, что вы думаете о разблокировщике сайтов "  DNS_NAME  ". Чего вам не хватает? С какими сайтами возникли проблемы?");
+		return ConvertString(string("Расскажите, что вы думаете о разблокировщике сайтов ") +  DNS_NAME  + ". Чего вам не хватает? С какими сайтами возникли проблемы?");
 }
 
 const string CGuestBookSSP::GetKeywords(const string strLang) const
 {
 	if (strLang == "en")
-		return "guestbook, forum, comments, suggestions , users anonymizer "  DNS_NAME  ;
+		return string("guestbook, forum, comments, suggestions , users anonymizer ") +  DNS_NAME  ;
 	if (strLang == "ru") 
-		return ConvertString("Гостевая книга, форум, отзывы, предложения, пользователей анонимайзера "  DNS_NAME );
+		return ConvertString(string("Гостевая книга, форум, отзывы, предложения, пользователей анонимайзера ") +  DNS_NAME );
 }

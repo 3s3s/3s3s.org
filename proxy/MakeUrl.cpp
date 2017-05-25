@@ -49,7 +49,7 @@ const string CMakeUrlSSP::ValidateLong(const string strLong) const
 	if ((strRet.find("http://") != 0) && (strRet.find("https://") != 0))
 		strRet = "http://"+strRet;
 
-	const string strProxy = "." DNS_NAME;
+	const string strProxy = string(".") + DNS_NAME;
 
 	int nPos = strRet.find(strProxy);
 	while (nPos != strRet.npos)
@@ -149,7 +149,11 @@ const string CMakeUrlSSP::OnMakeNew(const string strLong, const string strAlias,
 		
 #ifndef _DEBUG
 		if (exist.GetRowsCount())
-			return "{\"result\": false, \"reason\": \"wait24\"}";
+		{
+			const string strTimeLast = exist[0][2];
+			//DEBUG_LOG("CMakeUrlSSP::Show start");
+			return string("{\"result\": false, \"reason\": \"wait24\", \"time_last\": \"") + strTimeLast + "\", \"time\": \"" + to_string(time(NULL)) + "\"}";
+		}
 #endif
 
 		orm::CTable("LINKS").InsertOrAbort("\'%s\', \'%s\', %i, \'%s\', \'%s\'", 
