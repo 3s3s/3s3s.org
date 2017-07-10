@@ -1,0 +1,25 @@
+13:44:1 //////////////////////////////////////////////////
+13:44:1 Create table UsersSites in database
+13:44:1 CreateTable !!! Database Error !!! (str=(null)) sql=CREATE TABLE IF NOT EXISTS UsersSites (url TEXT, title TEXT, description TEXT, UserIP TEXT, time INTEGER, flag INTEGER)
+13:44:1 CreateDatabase start
+13:44:1 //////////////////////////////////////////////////
+13:44:1 Create table LINKS in database
+13:44:1 All Updated CTable::CreateTable
+13:44:1 CreateDatabase start
+13:44:1 error in check_private_key
+13:44:1 CloseSocket m_hSocket=8
+
+13:44:1 ShutdownSocket
+
+13:44:1 Destruct CSocket
+13:44:1 ShutdownSocket
+
+13:44:1 CloseSocket m_hSocket=-1
+
+13:44:1 Destruct CSocket
+13:44:1 ShutdownSocket
+
+13:44:1 CloseSocket m_hSocket=7
+
+13:44:1 ShutdownSocket
+
