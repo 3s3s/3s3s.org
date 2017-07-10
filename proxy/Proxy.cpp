@@ -89,6 +89,7 @@ void CSSPProxy::InjectScript(const string strTagName)
 		(utils::ci_find_substr( strHTML, "</script>" ) == -1))
 	{
 		pReadedBytes->pop_back();
+		m_bFirstBodySended = false; 
 		return;
 	}
 	
@@ -424,7 +425,7 @@ bool CSSPProxy::FlushBody(vector<BYTE> *pOutBuffer)
 			}
 		}
 	}
-
+	
 	DEBUG_LOG("FlushBody start 1");
 
 	ostringstream strChunkStart;
