@@ -24,10 +24,41 @@ $(function()
 	{
 		window.location.href = window.location.protocol + "//" + "3s3s.org" + window.location.pathname
 	}*/
-	/*if (GetMyDomain() == '3s3s.org')
+	if  (GetMyDomain() == '3s3s.ru')
 	{
-		alert('Domain 3s3s.org has been blocked in Russia ((( You can use 3s3s.ru for a while.');
-	}*/
+		//alert('Domain 3s3s.org has been blocked in Russia ((( You can use 3s3s.ru for a while.');
+		var head = '<center><h1>Этот анонимайзер скоро будет заблокирован в России</h1></center>'
+		var message = 
+		    '<div><table style="width:100%; table-layout: fixed; cellspacing=\'0\' cellpadding=\'0\' align=\'center\'">'+
+		      '<tr><td class="middle_left">'+
+		    	  '</td>'+
+		    	  '<td class="middle_middle">'+
+		    	  	'<h3>Госдума РФ одобрила в 3 чтении пакет законов, направленных на борьбу с анонимностью в сети.</h3><br>'+
+		    		'Для обхода блокировок на территории РФ, самый простой способ теперь - <a href="https://www.torproject.org/download/download">использовать браузер TOR</a><br><br>' +
+					'Для более продвинутых пользователей - можно продолжать пользоваться этим анонимайзером, но вам нужно зарегистрировать собственное доменное имя (вместо 3s3s.ru)<br>' +
+					'<br>Следуйте инструкциям: <br>' +
+					'1. Купите (или получие бесплатно) домен.<br>' +
+					'2. Настройте A записи своего домена на IP адрес этого анонимайзера (на сегодня адрес 104.131.65.219 но как вы понимаете, все может в любой момент поменяться). Настройки должны выглядеть примерно так:<br>' +
+					'А запись 1: "@.ваш.домен -> 104.131.65.219"<br>'+
+					'А запись 2: "*.ваш.домен -> 104.131.65.219"<br><br>'+
+					
+					'Наконец, самые продвинутые могут <a href="https://habrahabr.ru/post/324290/">сделать анонимайзер на собственном сервере за 10 минут.</a><br><br><br>'+
+					
+					'<h3>Пока анонимайзер окончательно не заблокирован, можете свободно <a href="https://3s3s.github.io/links/">продолжать им пользоваться</a></h3>'
+		    	  '</td>'+
+			  '<td class="middle_right"></td>'
+		      '</tr>'+
+		    '</table></div>';
+			
+		document.body.innerHTML = 
+			"<div class='main_page'>" + 
+				"<div class='main_sheet'>" + 
+					"<div>" + head + "</div>" + 
+					"<div class='main_content content_middle'>" + message + 
+				"</div>"
+			"</div>";
+		return;
+	}	
 	
 	deleteAllCookies("");
 
