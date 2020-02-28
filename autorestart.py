@@ -24,6 +24,7 @@ nCounter = 0
 while True:
     f.write('while - start\n')
     f.flush()
+    os.system("ulimit -n 10000")
     os.system("nohup " + HOME_DIR + "/test_server.exe")
     f.write('program stopped\n')
     f.flush()
